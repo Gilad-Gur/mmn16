@@ -42,7 +42,7 @@ public class DoubleThreadedBinaryTree
         if (numOfNodes == 0)
             median = null;
 
-        if (numOfNodes == 1)
+        else if (numOfNodes == 1)
             median = root;
 
         else // numOfNodes > 1
@@ -77,6 +77,7 @@ public class DoubleThreadedBinaryTree
             }
         }
     }
+
 
     /**
      * This method returns the median node of the tree.
@@ -353,18 +354,20 @@ public class DoubleThreadedBinaryTree
         else {
 
             numOfNodes--;
-            updateMedian(toDelete, DELETE);
 
             if (isLeaf(toDelete))
             {
                 toDelete = deleteLeaf(toDelete);
+                updateMedian(toDelete, DELETE);
             }
             else if (hasOnlyLeftChild(toDelete) || hasOnlyRightChild(toDelete))
             {
                 toDelete = deleteNodeWithOneChild(toDelete);
+                updateMedian(toDelete, DELETE);
             }
             else // node has both left and right children
             {
+                updateMedian(toDelete, DELETE);
                 toDelete = deleteNodeWithBothChildren(toDelete);
             }
 

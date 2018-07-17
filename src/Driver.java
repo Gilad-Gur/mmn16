@@ -47,14 +47,13 @@ public class Driver
         myTree = new DoubleThreadedBinaryTree();
 
         // initialize the root
-        for (int i=0; i<10; i++)
+        for (int i=0; i<20; i++)
         {
-            id = random.nextInt(50)+1;
+            id = random.nextInt(1000000000);
 
             myTree.insert(id, generateRandomName());
         }
 
-        treeGUI myGUI = new treeGUI(myTree);
         // print inorder traversal of tree
         myTree.inorderPrint();
 
