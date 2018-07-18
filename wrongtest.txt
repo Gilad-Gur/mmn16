@@ -1,0 +1,31 @@
+Insert 5
+inserrt 6
+insert asd
+insert "abd"
+insert 'a'
+insert . 12 grey goose
+insert .12
+insert 1111111111111111111111999999999999999999999999
+
+minimun
+Minimum
+maximun
+Maximum
+
+predecessor f
+successor . 5
+
+search ` 5
+searCh 5
+
+delete 6
+delete -0
+delete =5
+delete 5 -=
+delete 5
+delete 14
+
+getmeDian e
+getmedian()
+
+

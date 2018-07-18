@@ -47,7 +47,7 @@ public class Driver
         myTree = new DoubleThreadedBinaryTree();
 
         // initialize the root
-        for (int i=0; i<20; i++)
+        for (int i=0; i<10; i++)
         {
             id = random.nextInt(1000000000);
 
@@ -127,6 +127,7 @@ public class Driver
             scan.nextLine();
             myTree.inorderPrint();
             System.out.println("Median is " + (myTree.getMedian()).toString());
+            System.out.println("Root is " + (myTree.getRoot()).toString());
         }
         System.out.println("inorder:");
         myTree.inorderPrint();

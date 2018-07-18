@@ -115,9 +115,9 @@ public class DoubleThreadedBinaryTree
      *
      * @return max the node with key==max{SubTree keys}
      */
-    public Node maximum(Node node)
+    public Node maximum(Node rootNode)
     {
-        Node max = node;
+        Node max = rootNode;
         if (max != null)
         {
             while (!max.isRightThreaded())
