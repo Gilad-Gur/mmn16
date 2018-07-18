@@ -1,8 +1,11 @@
+package core;
+import shapes.Circle;
+
 /**
- * A Java implementation of a DoubleThreadedBinaryTree.
+ * A Java implementation of a core.DoubleThreadedBinaryTree.
  *
- * @author Gilad Gur
- * @version 12 JULY 2018
+ * @author Gilad Gur & Shahar Linial
+ * @version 18 JULY 2018
  */
 public class DoubleThreadedBinaryTree
 {
@@ -14,7 +17,7 @@ public class DoubleThreadedBinaryTree
     private final int DELETE = 1;
 
     /**
-     * DoubleThreadedBinaryTree instance constructor
+     * core.DoubleThreadedBinaryTree instance constructor
      */
     public DoubleThreadedBinaryTree()
     {
@@ -27,7 +30,7 @@ public class DoubleThreadedBinaryTree
     /**
      * A method to fetch this tree's root.
      *
-     * @return root this tree's root Node
+     * @return root this tree's root core.Node
      */
     public Node getRoot()
     {
@@ -203,9 +206,9 @@ public class DoubleThreadedBinaryTree
     }
 
     /**
-     * This method inserts a new Node to the tree
+     * This method inserts a new core.Node to the tree
      *
-     * @param id the id of the new Node to be added
+     * @param id the id of the new core.Node to be added
      * @param name the student name to be inserted
      */
     public void insert(int id, String name)
@@ -251,7 +254,7 @@ public class DoubleThreadedBinaryTree
             parent.setRightThreaded(false);
         }
 
-        // thread new Node
+        // thread new core.Node
         newNode.setLeft(predecessor(newNode));
         newNode.setLeftThreaded(true);
         newNode.setRight(successor(newNode));
@@ -269,27 +272,29 @@ public class DoubleThreadedBinaryTree
      * @param id the key of node to be searched
      * @return currentNode if a node is found, null otherwise
      */
-    public Node search(Node rootSubTree, int id)
+    public Node search(Node rootSubTree, int id, boolean toHighlight)
     {
         Node current = rootSubTree;
         while (current != null)
         {
-            if (id == current.getId())
+            if (toHighlight) current.highlightFlag = true;
+            if (id == current.getId()) {
                 return current;
-
+            }
             if (current.isLeftThreaded() && id < current.getId())
                 break;
 
-            if (id < current.getId())
+            if (id < current.getId()) {
                 current = current.getLeft();
-
+            }
             else if (current.isRightThreaded() && id > current.getId())
                 break;
 
-            else
+            else {
                 current = current.getRight();
+            }
         }
-
+        setResetColor();
         return null;
     }
 
@@ -328,9 +333,9 @@ public class DoubleThreadedBinaryTree
     }
 
     // private method to determine whether or not a node is a right child of its parent
-//    private boolean isRightChild(Node child)
+//    private boolean isRightChild(core.Node child)
 //    {
-//        Node parent = child.getParent();
+//        core.Node parent = child.getParent();
 //
 //        return (child == parent.getRight());
 //    }
@@ -341,11 +346,11 @@ public class DoubleThreadedBinaryTree
      * @param id the key of node to be removed from tree
      *
      *
-     * @return toDelete the Node that has been removed, null if not found
+     * @return toDelete the core.Node that has been removed, null if not found
      */
     public Node delete(int id)
     {
-        Node toDelete = search(getRoot(), id);
+        Node toDelete = search(getRoot(), id, false);
         if (toDelete == null)
         {
             System.out.println("Error: No node with key=" + id + " in Tree.");
@@ -471,15 +476,13 @@ public class DoubleThreadedBinaryTree
     /**
      * This method prints an inorder traversal of the tree.
      */
-    public void inorderPrint()
+    public String inorderPrint()
     {
         Node runner = minimum(getRoot());
-
-        int counter = 1;
+        StringBuilder sb = new StringBuilder();
         while (runner != null)
         {
-            System.out.println(counter + ")\t" + runner.toString());
-
+            sb.append(runner.toString()).append(" ");
             // If this node is right-threaded
             // then go to inorder successor
             if (runner.isRightThreaded())
@@ -488,10 +491,8 @@ public class DoubleThreadedBinaryTree
             // Otherwise, go to the leftmost child in right sub-tree
             else
                 runner = minimum(runner.getRight());
-
-            counter++;
         }
-        System.out.print("\n");
+        return sb.toString();
     }
 
     /**
@@ -499,18 +500,20 @@ public class DoubleThreadedBinaryTree
      *
      * @param currentNode the node to be traversed
      */
-    public void preorderPrint(Node currentNode)
+    public String preorderPrint(Node currentNode)
     {
+        StringBuilder sb = new StringBuilder();
+
         if (currentNode != null)
         {
-            System.out.println(currentNode.toString());
-
+            sb.append(currentNode.toString()).append(" ");
             if ( ! currentNode.isLeftThreaded() )
-                preorderPrint(currentNode.getLeft());
+                sb.append(preorderPrint(currentNode.getLeft()));
 
             if ( ! currentNode.isRightThreaded() )
-                preorderPrint(currentNode.getRight());
+                sb.append(preorderPrint(currentNode.getRight()));
         }
+        return sb.toString();
     }
 
     /**
@@ -518,18 +521,20 @@ public class DoubleThreadedBinaryTree
      *
      * @param currentNode the node to be traversed
      */
-    public void postorderPrint(Node currentNode)
+    public String postorderPrint(Node currentNode)
     {
+        StringBuilder sb = new StringBuilder();
         if (currentNode != null)
         {
             if ( ! currentNode.isLeftThreaded() )
-                postorderPrint(currentNode.getLeft());
+                sb.append(postorderPrint(currentNode.getLeft()));
 
             if ( ! currentNode.isRightThreaded() )
-                postorderPrint(currentNode.getRight());
+                sb.append(postorderPrint(currentNode.getRight()));
 
-            System.out.println(currentNode.toString());
+            sb.append(currentNode.toString()).append(" ");
         }
+        return sb.toString();
     }
 
     /**
@@ -555,6 +560,31 @@ public class DoubleThreadedBinaryTree
         {
             return 1 + Math.max(heightOfTree(node.getLeft()),
                             heightOfTree(node.getRight()));
+        }
+    }
+
+    public void setResetColor() {
+        resetColor();
+    }
+    public void makeEmpty() {
+        root = null;
+        median = null;
+        numOfNodes = 0;
+    }
+
+
+    protected void resetColor() {
+        Node runner = minimum(getRoot());
+        while (runner != null)
+        {
+
+            runner.highlightFlag = false;
+            if (runner.isRightThreaded())
+                runner = runner.getRight();
+
+                // Otherwise, go to the leftmost child in right sub-tree
+            else
+                runner = minimum(runner.getRight());
         }
     }
 }

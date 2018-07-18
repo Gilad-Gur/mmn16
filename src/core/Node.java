@@ -1,13 +1,18 @@
+package core;
+
+import shapes.Circle;
+
 /**
- * Class Node represents a node in a tree.
+ * Class core.Node represents a node in a tree.
  *
- * @author Gilad Gur
- * @version 14 JULY 2018
+ * @author Gilad Gur & Shahar Linial
+ * @version 18 JULY 2018
  */
 
 public class Node
 {
-    // Node instance variables
+    // core.Node instance variables
+    public Circle rootCircle;
     private int id;
     private String name;
     private Node left;
@@ -15,17 +20,19 @@ public class Node
     private Node parent;
     private boolean leftThreaded;
     private boolean rightThreaded;
+    public boolean highlightFlag;
 
     /**
-     * Node instance constructor
+     * core.Node instance constructor
      *
-     * @param id the id of newly created Node
+     * @param id the id of newly created core.Node
      * @param name the name of the student
      */
-    Node(int id, String name)
+    public Node(int id, String name)
     {
         this.id = id;
         this.name = name;
+        this.rootCircle = new Circle(id,name);
         this.left = null;
         this.right = null;
         this.parent = null;
@@ -34,7 +41,7 @@ public class Node
     }
 
     /**
-     * Method to copy source Node's data to this node.
+     * Method to copy source core.Node's data to this node.
      *
      * @param source the node to copy data from.
      */
@@ -45,6 +52,7 @@ public class Node
     }
 
     // private method to make id number into string
+    //TODO: do we need that?
     private String idToString(int id)
     {
         String result = "";
@@ -65,11 +73,11 @@ public class Node
      */
     public String toString()
     {
-        return "id: " + idToString(id) + ", name: " + name;
+        return idToString(id);
     }
 
     /**
-     * Method to fetch this Node's id
+     * Method to fetch this core.Node's id
      */
     public int getId()
     {
@@ -81,24 +89,24 @@ public class Node
     }
     public Node getLeft()
     {
-        return left;
+        return this.left;
     }
     public Node getRight()
     {
-        return right;
+        return this.right;
     }
     public Node getParent()
     {
-        return parent;
+        return this.parent;
     }
 
     public boolean isLeftThreaded()
     {
-        return leftThreaded;
+        return this.leftThreaded;
     }
     public boolean isRightThreaded()
     {
-        return rightThreaded;
+        return this.rightThreaded;
     }
 
     public void setId(int id)

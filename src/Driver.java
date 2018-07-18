@@ -1,6 +1,11 @@
+import core.DoubleThreadedBinaryTree;
+import core.Node;
+
 import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
+
+
 
 /**
  * Driver Class to test DoubleThreaded data structure and methods.
@@ -92,9 +97,9 @@ public class Driver
                 keyToSearch = scan.nextInt();
                 if (keyToSearch == -1)
                     break;
-                Node searchResult = myTree.search(myTree.getRoot(), keyToSearch);
+                Node searchResult = myTree.search(myTree.getRoot(), keyToSearch, false);
                 if (searchResult != null)
-                    System.out.println("found: " + (myTree.search(myTree.getRoot(), keyToSearch)).toString());
+                    System.out.println("found: " + (myTree.search(myTree.getRoot(), keyToSearch, false)).toString());
                 else
                     System.out.println("Key not found in tree");
             }
