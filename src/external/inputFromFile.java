@@ -1,5 +1,7 @@
-import java.io.*;
+package external;
 
+import java.io.*;
+import core.*;
 public class inputFromFile {
 
     private static final String[] COMMANDS = {"insert", "delete", "search",
@@ -102,7 +104,7 @@ public class inputFromFile {
         String [] argv = line.split(" ");
 
         // check input is valid. if not valid then exit routine
-        if (validateArgs(argv) == false)
+        if (!validateArgs(argv))
             return;
 
         // initialize command representation number for switch case
@@ -143,7 +145,7 @@ public class inputFromFile {
                 break;
 
             case 2: // search
-                Node searchResult = tree.search(tree.getRoot(), idArg);
+                Node searchResult = tree.search(tree.getRoot(), idArg, false);
                 if (searchResult != null)
                     System.out.println("found: " + searchResult.toString());
                 else
@@ -151,7 +153,7 @@ public class inputFromFile {
                 break;
 
             case 3: // predecessor
-                node = tree.search(tree.getRoot(), idArg);
+                node = tree.search(tree.getRoot(), idArg, false);
                 Node predecessor = tree.predecessor(node);
                 System.out.println("Predecessor of "+ node.toString() +
                         " is " + predecessor.toString());
@@ -159,7 +161,7 @@ public class inputFromFile {
 
 
             case 4: // successor
-                node = tree.search(tree.getRoot(), idArg);
+                node = tree.search(tree.getRoot(), idArg, false);
                 Node successor = tree.successor(node);
                 System.out.println("successor of "+ node.toString() +
                         " is " + successor.toString());
