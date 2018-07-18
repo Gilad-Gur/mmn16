@@ -86,11 +86,6 @@ public final class GFXTree extends Canvas {
         drawTree();
     }
 
-    /**
-     * Prints the tree traversal order to the upper left-hand
-     * side of the screen.
-     * @return outputString
-     */
     public void showMedian(){
         if (tree.getMedian() != null){
             tree.getMedian().highlightFlag = true;
@@ -229,6 +224,7 @@ public final class GFXTree extends Canvas {
     public void delete(Integer searchKey) {
         try {
             tree.delete(searchKey);
+
         } catch (Exception e) {
 //            JOptionPane.showMessageDialog(null, "Unable to delete " + searchKey);
         }

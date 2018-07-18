@@ -49,6 +49,7 @@ public class Node
     {
         this.id = source.id;
         this.name = source.name;
+        this.rootCircle = source.rootCircle;
     }
 
     // private method to make id number into string

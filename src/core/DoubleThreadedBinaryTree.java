@@ -91,7 +91,9 @@ public class DoubleThreadedBinaryTree
     {
         return median;
     }
-
+    public void setMedian(Node tNode){
+        median = tNode;
+    }
     /**
      * This method returns the node with minimal key in the tree.
      *
@@ -114,7 +116,7 @@ public class DoubleThreadedBinaryTree
     /**
      * This method returns the node with maximal key in the sub-tree.
      *
-     * @param node The root of the sub-tree
+     * @param Node The root of the sub-tree
      *
      * @return max the node with key==max{SubTree keys}
      */
@@ -323,7 +325,6 @@ public class DoubleThreadedBinaryTree
             return true;
         return false;
     }
-
     // private method to determine whether or not a node is a left child of its parent
     private boolean isLeftChild(Node child)
     {

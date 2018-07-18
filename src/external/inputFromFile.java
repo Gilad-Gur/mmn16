@@ -2,6 +2,7 @@ package external;
 
 import java.io.*;
 import core.*;
+
 public class inputFromFile {
 
     private static final String[] COMMANDS = {"insert", "delete", "search",
@@ -91,8 +92,6 @@ public class inputFromFile {
 
         return true;
     }
-
-
 
     // Method to invoke the appropriate method requested by user
     // with the given user args.
