@@ -65,7 +65,8 @@ public final class GFXTree extends Canvas {
     }
 
     public void createTreeFromFile(File file){
-        tree = inputFromFile.build(file);
+        makeEmpty();
+        tree = inputFromFile.create(file);
         drawTree();
     }
     /**
@@ -245,6 +246,7 @@ public final class GFXTree extends Canvas {
         tree.makeEmpty();
         maxTreeHeight = 6;
         getGraphicsContext2D().clearRect(0, 0, getWidth(), getHeight());
+        drawTree();
     }
 
     /**

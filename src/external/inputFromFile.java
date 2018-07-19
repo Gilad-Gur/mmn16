@@ -211,7 +211,7 @@ public class inputFromFile {
         }
     }
 
-    public static DoubleThreadedBinaryTree build(File file_address) {
+    public static DoubleThreadedBinaryTree create(File file_address) {
 
         // create the tree
         DoubleThreadedBinaryTree tree = new DoubleThreadedBinaryTree();

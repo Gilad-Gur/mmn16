@@ -572,6 +572,7 @@ public class DoubleThreadedBinaryTree
     public void setResetColor() {
         resetColor();
     }
+
     public void makeEmpty() {
         root = null;
         median = null;
