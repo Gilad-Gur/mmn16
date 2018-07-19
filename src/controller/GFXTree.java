@@ -7,7 +7,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import core.*;
 import shapes.*;
+import external.inputFromFile;
 import java.util.Objects;
+import java.io.File;
 
 /**
  * Draws the tree and updates the graphics to display according to the
@@ -62,6 +64,10 @@ public final class GFXTree extends Canvas {
         drawTree();
     }
 
+    public void createTreeFromFile(File file){
+        tree = inputFromFile.build(file);
+        drawTree();
+    }
     /**
      * Set the max tree height.
      * @param size a <code>Integer</code> number for the tree max size

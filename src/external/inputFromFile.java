@@ -211,22 +211,18 @@ public class inputFromFile {
         }
     }
 
-    public static void main(String [] args) {
+    public static DoubleThreadedBinaryTree build(File file_address) {
 
         // create the tree
-        DoubleThreadedBinaryTree tree;
-        tree = new DoubleThreadedBinaryTree();
-
-        // The name of the file to open.
-        String fileName = "wrongtest.txt";
+        DoubleThreadedBinaryTree tree = new DoubleThreadedBinaryTree();
 
         // This will reference one line at a time
-        String line = null;
+        String line;
 
         try {
             // FileReader reads text files in the default encoding.
             FileReader fileReader =
-                    new FileReader(fileName);
+                    new FileReader(file_address);
 
             // Always wrap FileReader in BufferedReader.
             BufferedReader bufferedReader =
@@ -243,14 +239,15 @@ public class inputFromFile {
         catch(FileNotFoundException ex) {
             System.out.println(
                     "Unable to open file '" +
-                            fileName + "'");
+                            file_address + "'");
         }
         catch(IOException ex) {
             System.out.println(
                     "Error reading file '"
-                            + fileName + "'");
+                            + file_address + "'");
             // Or we could just do this:
             // ex.printStackTrace();
         }
+        return tree;
     }
 }

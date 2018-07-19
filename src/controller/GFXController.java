@@ -119,7 +119,6 @@ public final class GFXController implements Initializable {
         }
     }
     @FXML private void showMedianOnAction(ActionEvent event){
-
         graphicsTree.showMedian();
     }
     /**
@@ -152,7 +151,8 @@ public final class GFXController implements Initializable {
         final FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(root_container.getScene().getWindow());
         if (file != null) {
-
+            graphicsTree.makeEmpty();
+            graphicsTree.createTreeFromFile(file);
         }
     }
 }
