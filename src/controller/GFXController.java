@@ -6,24 +6,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
-import java.awt.Desktop;
 import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 /**
  * Constructs the GUI components and performs events for displaying and
@@ -62,7 +48,9 @@ public final class GFXController implements Initializable {
      */
     @FXML private void searchOnAction(ActionEvent event) {
         try {
-            graphicsTree.search(Integer.parseInt(input_field.getText().trim()));
+            String x = graphicsTree.search(Integer.parseInt(input_field.getText().trim()));
+
+            traversal_textarea.setText(x);
         } catch (NumberFormatException nfe) {
             Alert alert = new Alert(Alert.AlertType.ERROR,
                     "Error searching for value. The input field can only accept numbers.", 	ButtonType.OK);
@@ -70,7 +58,6 @@ public final class GFXController implements Initializable {
             alert.showAndWait()
                     .filter(response -> response == ButtonType.OK)
                     .ifPresent(response -> alert.close());
-
         }
     }
 
@@ -80,6 +67,7 @@ public final class GFXController implements Initializable {
     @FXML private void deleteOnAction(ActionEvent event) {
         try {
             graphicsTree.delete(Integer.parseInt(input_field.getText().trim()));
+            traversal_textarea.setText("");
         } catch (NumberFormatException nfe) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Error deleting value. The input field can only accept numbers.",
                     ButtonType.OK);
@@ -109,7 +97,14 @@ public final class GFXController implements Initializable {
      */
     @FXML private void insertOnAction(ActionEvent event) {
         try {
-            graphicsTree.insert(Integer.parseInt(input_field.getText().trim()), "");
+            TextInputDialog dialog = new TextInputDialog("walter");
+            dialog.setTitle("Adding new item");
+            dialog.setHeaderText("A Student name is needed.");
+            dialog.setContentText("Please enter "+ input_field.getText() +"'s name:");
+            Optional<String> result = dialog.showAndWait();
+            String studentName = "";
+            if (result.isPresent()){ studentName = result.get();}
+            graphicsTree.insert(Integer.parseInt(input_field.getText().trim()), studentName);
         } catch (NumberFormatException nfe) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Error inserting value. The input field can only accept numbers.",
                     ButtonType.OK);
@@ -119,16 +114,20 @@ public final class GFXController implements Initializable {
         }
     }
     @FXML private void showMedianOnAction(ActionEvent event){
-        graphicsTree.showMedian();
+        String median = graphicsTree.showMedian();
+        traversal_textarea.setText(median);
     }
     /**
      * Performs the action when the first traversal button is clicked.
      */
     @FXML private void showMinAction(ActionEvent event) {
-        graphicsTree.showMin();
+        String min = graphicsTree.showMin();
+        traversal_textarea.setText(min);
+
     }
     @FXML private void showMaxAction(ActionEvent event) {
-        graphicsTree.showMax();
+        String max = graphicsTree.showMax();
+        traversal_textarea.setText(max);
     }
     @FXML private void inorderOnAction(ActionEvent event) {
         traversal_textarea.setText(graphicsTree.inorder());

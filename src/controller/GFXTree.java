@@ -8,6 +8,7 @@ import javafx.scene.control.ButtonType;
 import core.*;
 import shapes.*;
 import external.inputFromFile;
+
 import java.util.Objects;
 import java.io.File;
 
@@ -86,45 +87,59 @@ public final class GFXTree extends Canvas {
      *
      * @param searchKey a <code>Integer</code> number for finding a tree.TreeNode
      */
-    public void search(Integer searchKey) {
-
+    public String search(Integer searchKey) {
         // Try to search for a number.
-        tree.search(tree.getRoot(), searchKey, true); // number was found
+        Node x = tree.search(tree.getRoot(), searchKey, true); // number was found
         drawTree();
+        if (x == null){
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Student ID " + searchKey.toString() +" does not exist.",
+                    ButtonType.CLOSE);
+            alert.showAndWait()
+                    .ifPresent(response -> alert.close());
+            return "";
+        }
+        return x.getName();
     }
 
-    public void showMedian(){
+    public String showMedian(){
         if (tree.getMedian() != null){
             tree.getMedian().highlightFlag = true;
             drawTree();
+            return tree.getMedian() != null ? tree.getMedian().getName() : "";
         }else{
             Alert alert = new Alert(Alert.AlertType.WARNING, "Tree is empty. Please insert valid records.",
                     ButtonType.CLOSE);
             alert.showAndWait()
                     .ifPresent(response -> alert.close());
         }
+        return "";
     }
-    public void showMin(){
+    public String showMin(){
         if (tree.getRoot() != null){
-            tree.minimum(tree.getRoot()).highlightFlag = true;
+            Node x = tree.minimum(tree.getRoot());
             drawTree();
+            return x.getName();
         }else{
             Alert alert = new Alert(Alert.AlertType.WARNING, "Tree is empty. Please insert valid records.",
                     ButtonType.CLOSE);
             alert.showAndWait()
                     .ifPresent(response -> alert.close());
         }
+        return "";
     }
-    public void showMax(){
+    public String showMax(){
         if (tree.getRoot() != null){
-            tree.maximum(tree.getRoot()).highlightFlag = true;
+            Node x = tree.maximum(tree.getRoot());
+            x.highlightFlag = true;
             drawTree();
+            return x.getName();
         }else{
             Alert alert = new Alert(Alert.AlertType.WARNING, "Tree is empty. Please insert valid records.",
                     ButtonType.CLOSE);
             alert.showAndWait()
                     .ifPresent(response -> alert.close());
         }
+        return "";
     }
     /**
      * Retrieves the pre-order traversal option.
@@ -158,7 +173,6 @@ public final class GFXTree extends Canvas {
      * @param searchKey a <code>integer</code> number to insert in the tree
      */
     public void insert(Integer searchKey, String studentName) {
-//        insertCircle = new Circle(searchKey, studentName);
         tree.insert(searchKey, studentName);
         int heightOption = 2;
         drawTree();
@@ -230,8 +244,13 @@ public final class GFXTree extends Canvas {
      */
     public void delete(Integer searchKey) {
         try {
-            tree.delete(searchKey);
-
+            Node x = tree.delete(searchKey);
+            if(x == null){
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Student ID " + searchKey.toString() +" does not exist.",
+                        ButtonType.CLOSE);
+                alert.showAndWait()
+                        .ifPresent(response -> alert.close());
+            }
         } catch (Exception e) {
 //            JOptionPane.showMessageDialog(null, "Unable to delete " + searchKey);
         }
