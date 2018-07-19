@@ -67,13 +67,13 @@ public class DoubleThreadedBinaryTree
             {
                 if (numOfNodes%2 == 0) // even
                 {
-                    // <= if median itself is deleted
+                    // == if median itself is deleted
                     if (node.getId() <= median.getId())
                         median = successor(median);
                 }
                 else // numOfNodes is odd
                 {
-                    // >= if median itself is deleted
+                    // == if median itself is deleted
                     if (node.getId() >= median.getId())
                         median = predecessor(median);
                 }
@@ -373,8 +373,8 @@ public class DoubleThreadedBinaryTree
             }
             else // node has both left and right children
             {
-                updateMedian(toDelete, DELETE);
                 toDelete = deleteNodeWithBothChildren(toDelete);
+                // updating median inside deleteNodeWithBothChildren()
             }
 
             return toDelete;
@@ -460,11 +460,16 @@ public class DoubleThreadedBinaryTree
         // save toDelete data temporarily
         temp.copyData(toDelete);
 
+        if (!(median == toDelete && numOfNodes%2==0)) {
+            updateMedian(toDelete,DELETE);
+        }
+
         // copy successor data into toDelete node
         toDelete.copyData(successor);
 
         // copy toDelete data into its successor node
         successor.copyData(temp);
+
 
         // delete toDelete's successor
         if (isLeaf(successor))
