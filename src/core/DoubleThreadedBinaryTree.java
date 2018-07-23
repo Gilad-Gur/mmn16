@@ -573,6 +573,16 @@ public class DoubleThreadedBinaryTree
         return sb.toString();
     }
 
+    private void deleteAllNodes(){
+        Node current = minimum(getRoot(), false);
+        Node succ;
+        while (current != null)
+        {
+            succ = successor(current, false);
+            delete(current.getId());
+            current = succ;
+        }
+    }
     /**
      * This method prints a postorder traversal of the tree
      *
@@ -626,6 +636,7 @@ public class DoubleThreadedBinaryTree
     }
 
     public void makeEmpty() {
+        deleteAllNodes();
         root = null;
         median = null;
         numOfNodes = 0;

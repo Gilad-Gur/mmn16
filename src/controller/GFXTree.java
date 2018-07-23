@@ -291,6 +291,7 @@ public final class GFXTree extends Canvas {
      */
     public void makeEmpty() {
         tree.makeEmpty();
+        currentHighlightedNode = null;
         maxTreeHeight = 6;
         getGraphicsContext2D().clearRect(0, 0, getWidth(), getHeight());
         drawTree();
