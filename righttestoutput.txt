@@ -1,0 +1,21 @@
+Successfully inserted new node 5 : Yohai BarNur
+Successfully inserted new node 3 : Arnon Tzadok
+Successfully inserted new node 4 : Yivgeni Chorbadov
+Successfully inserted new node 1 : Tovtov HaGamad
+Successfully inserted new node 2 : Mibli Bibli
+Successfully inserted new node 7 : Duchie TheDouchbag
+Successfully inserted new node 6 : Poppa Poppapa
+Successfully inserted new node 9 : Azit Hatzanhanit
+Successfully inserted new node 8 : Dobby Dobberman
+Successfully inserted new node 11 : Tziftzif MeAlHaratzif
+Successfully inserted new node 10 : Zubin Mehta
+Preorder : 5 3 1 2 4 7 6 9 8 11 10
+Inorder : 1 2 3 4 5 6 7 8 9 10 11
+Min = 1 : Tovtov HaGamad
+Max = 11 : Tziftzif MeAlHaratzif
+Median = 6 : Poppa Poppapa
+Successfully found node 10 : Zubin Mehta
+Successfully deleted node 3 : Arnon Tzadok
+Predecessor: 2 : Mibli Bibli
+Successor: 4 : Yivgeni Chorbadov
+Postorder : 2 1 4 6 8 10 11 9 7 5

@@ -1,0 +1,18 @@
+Error: invalid command
+Error: invalid command
+Error: invalid command
+Min Error : There are no nodes in the tree.
+Error: invalid command
+Max Error : There are no nodes in the tree.
+Error: invalid command
+Error: invalid command
+Could not find node 5 because it does not exists.
+Error: invalid command
+Could not delete node 6 because it does not exists.
+Could not delete node 0 because it does not exists.
+Could not delete node 5 because it does not exists.
+Could not delete node 14 because it does not exists.
+Error: invalid command
+Error: invalid command
+Error: invalid command
+Error: invalid command
