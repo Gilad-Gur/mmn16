@@ -52,20 +52,6 @@ public class Node
         this.rootCircle = source.rootCircle;
     }
 
-    // private method to make id number into string
-    //TODO: do we need that?
-    private String idToString(int id)
-    {
-        String result = "";
-        String str = Integer.toString(id);
-        int zeros = 9 - str.length();
-        for (int i=0; i<zeros; i++)
-            result += "0";
-        result += str;
-
-        return result;
-    }
-
     /**
      * This method returns a String representation of a node's data:
      * id number and name of student.
@@ -74,7 +60,7 @@ public class Node
      */
     public String toString()
     {
-        return idToString(id);
+        return Integer.toString(this.id);
     }
 
     /**
