@@ -537,15 +537,15 @@ public class DoubleThreadedBinaryTree
         StringBuilder sb = new StringBuilder();
         while (runner != null)
         {
+            // add current node's data to inorder print
             sb.append(runner.toString()).append(" ");
+
+            // same as successor method
             // If this node is right-threaded
             // then go to inorder successor
-            if (runner.isRightThreaded())
-                runner = runner.getRight();
-
             // Otherwise, go to the leftmost child in right sub-tree
-            else
-                runner = minimum(runner.getRight(), false);
+
+            runner = successor(runner,false);
         }
         System.out.println("Inorder : " + sb.toString());
         return sb.toString();
