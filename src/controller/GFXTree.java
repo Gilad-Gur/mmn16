@@ -27,7 +27,7 @@ public final class GFXTree extends Canvas {
     private static final Integer[] NUMBERS_ARRAY = { 50, 25, 30, 12, 10, 75, 70, 80, 110 };
 
     private DoubleThreadedBinaryTree tree;  	// The Double Threaded Binary Tree.
-    // private TreeIterator treeIterator;  // The BST Iterator
+    private Node currentHighlightedNode;
     private Circle insertCircle;        // Insert circle
     private int maxTreeHeight; 			// Max tree height;
 
@@ -89,7 +89,7 @@ public final class GFXTree extends Canvas {
      */
     public String search(Integer searchKey) {
         // Try to search for a number.
-        Node x = tree.search(tree.getRoot(), searchKey, true); // number was found
+        Node x = tree.search(tree.getRoot(), searchKey, true, true); // number was found
         drawTree();
         if (x == null){
             Alert alert = new Alert(Alert.AlertType.WARNING, "Student ID " + searchKey.toString() +" does not exist.",
@@ -98,14 +98,17 @@ public final class GFXTree extends Canvas {
                     .ifPresent(response -> alert.close());
             return "";
         }
+        this.currentHighlightedNode = x;
         return x.getName();
     }
 
     public String showMedian(){
-        if (tree.getMedian() != null){
-            tree.getMedian().highlightFlag = true;
+        Node median = tree.getMedian();
+        if (median != null){
+            median.highlightFlag = true;
             drawTree();
-            return tree.getMedian() != null ? tree.getMedian().getName() : "";
+            this.currentHighlightedNode = median;
+            return median.getName();
         }else{
             Alert alert = new Alert(Alert.AlertType.WARNING, "Tree is empty. Please insert valid records.",
                     ButtonType.CLOSE);
@@ -116,8 +119,10 @@ public final class GFXTree extends Canvas {
     }
     public String showMin(){
         if (tree.getRoot() != null){
-            Node x = tree.minimum(tree.getRoot());
+            Node x = tree.minimum(tree.getRoot(), true);
+            x.highlightFlag = true;
             drawTree();
+            this.currentHighlightedNode = x;
             return x.getName();
         }else{
             Alert alert = new Alert(Alert.AlertType.WARNING, "Tree is empty. Please insert valid records.",
@@ -129,8 +134,9 @@ public final class GFXTree extends Canvas {
     }
     public String showMax(){
         if (tree.getRoot() != null){
-            Node x = tree.maximum(tree.getRoot());
+            Node x = tree.maximum(tree.getRoot(), true);
             x.highlightFlag = true;
+            this.currentHighlightedNode = x;
             drawTree();
             return x.getName();
         }else{
@@ -141,11 +147,37 @@ public final class GFXTree extends Canvas {
         }
         return "";
     }
+
+    public String showSuccessor(){
+        if (this.currentHighlightedNode != null) {
+            Node successor = tree.successor(this.currentHighlightedNode, true);
+            if(successor != null){
+                successor.highlightFlag = true;
+                this.currentHighlightedNode = successor;
+                drawTree();
+                return successor.getName();
+            }
+        }
+        return "";
+    }
+
+    public String showPredecessor(){
+        if (this.currentHighlightedNode != null) {
+            Node predecessor = tree.predecessor(this.currentHighlightedNode, true);
+            if(predecessor != null){
+                predecessor.highlightFlag = true;
+                this.currentHighlightedNode = predecessor;
+                drawTree();
+                return predecessor.getName();
+            }
+        }
+        return "";
+    }
     /**
      * Retrieves the pre-order traversal option.
      */
     public String preorder(){
-        return tree.preorderPrint(tree.getRoot());
+        return tree.preorderPrint(tree.getRoot(), true);
     }
 
     /**
@@ -158,14 +190,10 @@ public final class GFXTree extends Canvas {
      * Retrieves the post-order traversal option.
      */
     public String postorder() {
-        return tree.postorderPrint(tree.getRoot());
+        return tree.postorderPrint(tree.getRoot(), true);
     }
 
 
-//    public void setPostorder() {
-//        treeIterator = new TreeIterator(tree);
-//        treeIterator.setPostorder();
-//    }
 
     /**
      * Inserts a circle into the tree. If the tree height reaches the max height

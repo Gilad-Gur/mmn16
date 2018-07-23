@@ -63,28 +63,28 @@ public class Driver
         myTree.inorderPrint();
 
         // min validation
-        System.out.println( "min{tree nodes} = " + (myTree.minimum(myTree.getRoot())).toString() );
+        System.out.println( "min{tree nodes} = " + (myTree.minimum(myTree.getRoot(),false)).toString());
 
         // max validation
-        System.out.println( "max{tree nodes} = " + (myTree.maximum(myTree.getRoot())).toString() );
+        System.out.println( "max{tree nodes} = " + (myTree.maximum(myTree.getRoot(), false)).toString() );
 
         // successor validation
         System.out.println("\nsuccessors run:");
 
-        Node runner = myTree.minimum(myTree.getRoot());
+        Node runner = myTree.minimum(myTree.getRoot(),false);
         while (runner != null)
         {
             System.out.println(runner.toString());
-            runner = myTree.successor(runner);
+            runner = myTree.successor(runner,false);
         }
         // predecessor validation
         System.out.println("\npredecessors run:");
 
-        runner = myTree.maximum(myTree.getRoot());
+        runner = myTree.maximum(myTree.getRoot(),false);
         while (runner != null)
         {
             System.out.println(runner.toString());
-            runner = myTree.predecessor(runner);
+            runner = myTree.predecessor(runner,false);
         }
         // search validation
         int keyToSearch = 0;
@@ -97,9 +97,9 @@ public class Driver
                 keyToSearch = scan.nextInt();
                 if (keyToSearch == -1)
                     break;
-                Node searchResult = myTree.search(myTree.getRoot(), keyToSearch, false);
+                Node searchResult = myTree.search(myTree.getRoot(), keyToSearch, false, false);
                 if (searchResult != null)
-                    System.out.println("found: " + (myTree.search(myTree.getRoot(), keyToSearch, false)).toString());
+                    System.out.println("found: " + (myTree.search(myTree.getRoot(), keyToSearch, false, false)).toString());
                 else
                     System.out.println("Key not found in tree");
             }
@@ -139,11 +139,11 @@ public class Driver
 
         // preorder validation
         System.out.println("preorder validation");
-        myTree.preorderPrint(myTree.getRoot());
+        myTree.preorderPrint(myTree.getRoot(), true);
 
 
         // postorder validation
         System.out.println("postorder validation");
-        myTree.postorderPrint(myTree.getRoot());
+        myTree.postorderPrint(myTree.getRoot(), true);
     }
 }

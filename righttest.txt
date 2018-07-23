@@ -9,3 +9,13 @@ insert 9 Azit Hatzanhanit
 insert 8 Dobby Dobberman
 insert 11 Tziftzif MeAl Haratzif
 insert 10 Zubin Mehta
+preorderprint
+inorderprint
+minimum
+maximum
+getmedian
+search 10
+delete 3
+predecessor 4
+successor 2
+postorderprint

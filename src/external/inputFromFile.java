@@ -42,12 +42,12 @@ public class inputFromFile {
         // check num of args are valid
         if ((command == 0 && argv.length < 4) ||
                 (1 <= command && command <= 4 && argv.length < 2)) {
-            System.out.println("Error: too few arguments");
+            //System.out.println("Error: too few arguments");
             return false;
         }
         if ((5 <= command && argv.length > 1) ||
                 (1 <= command && command <= 4 && argv.length > 2)) {
-            System.out.println("Error: too many arguments");
+            //System.out.println("Error: too many arguments");
             return false;
         }
 
@@ -64,21 +64,21 @@ public class inputFromFile {
                 if (argv.length > 1) {
                     idArg = Integer.parseInt(argv[1]);
                     if (!inRange(idArg)) {
-                        System.out.println("Error: Invalid first name");
+                        //System.out.println("Error: Invalid first name");
                         return false;
                     }
                 }
 
                 if (argv.length > 2)
                     if (!isAlpha(argv[2])) {
-                        System.out.println("Error: Invalid first name");
+                        //System.out.println("Error: Invalid first name");
                         return false;
                     }
 
                 if (argv.length > 3) {
                     for (int i = 3; i < argv.length; i++) {
                         if (!isAlpha(argv[i])) {
-                            System.out.println("Error: Invalid last name");
+                            //System.out.println("Error: Invalid last name");
                             return false;
                         }
                     } // end for
@@ -86,7 +86,7 @@ public class inputFromFile {
             } // end if
         } // end try
         catch (NumberFormatException e) {
-            System.out.println("Error: Invalid id number");
+            //System.out.println("Error: Invalid id number");
             return false;
         }
 
@@ -136,73 +136,46 @@ public class inputFromFile {
                 break;
 
             case 1: // delete
-                Node deleteResult = tree.delete(idArg);
-                if (deleteResult != null)
-                    System.out.println("deleted: " + deleteResult.toString());
-                else
-                    System.out.println("Key not found in tree");
+                tree.delete(idArg);
                 break;
 
             case 2: // search
-                Node searchResult = tree.search(tree.getRoot(), idArg, false);
-                if (searchResult != null)
-                    System.out.println("found: " + searchResult.toString());
-                else
-                    System.out.println("Key not found in tree");
+                tree.search(tree.getRoot(), idArg, false, true);
                 break;
 
             case 3: // predecessor
-                node = tree.search(tree.getRoot(), idArg, false);
-                Node predecessor = tree.predecessor(node);
-                System.out.println("Predecessor of "+ node.toString() +
-                        " is " + predecessor.toString());
+                node = tree.search(tree.getRoot(), idArg, false, false);
+                tree.predecessor(node,true);
                 break;
 
 
             case 4: // successor
-                node = tree.search(tree.getRoot(), idArg, false);
-                Node successor = tree.successor(node);
-                System.out.println("successor of "+ node.toString() +
-                        " is " + successor.toString());
+                node = tree.search(tree.getRoot(), idArg, false, false);
+                tree.successor(node,true);
                 break;
 
             case 5: // minimum
-                node = tree.minimum(tree.getRoot());
-                if (node != null)
-                    System.out.println("Minimum is " + node.toString());
-                else
-                    System.out.println("Empty tree");
+                tree.minimum(tree.getRoot(),true);
                 break;
 
             case 6: // maximum
-                node = tree.maximum(tree.getRoot());
-                if (node != null)
-                    System.out.println("Maximum is " + node.toString());
-                else
-                    System.out.println("Empty tree");
+                tree.maximum(tree.getRoot(), true);
                 break;
 
             case 7: // getmedian
-                node = tree.getMedian();
-                if (node != null)
-                    System.out.println("Median is " + node.toString());
-                else
-                    System.out.println("Empty tree");
+                tree.getMedian();
                 break;
 
             case 8: // inorderprint
-                System.out.println("Inorder print:");
                 tree.inorderPrint();
                 break;
 
             case 9: // preorderprint
-                System.out.println("Preorder print:");
-                tree.preorderPrint(tree.getRoot());
+                tree.preorderPrint(tree.getRoot(), true);
                 break;
 
             case 10: // postorderprint
-                System.out.println("Postorder print:");
-                tree.postorderPrint(tree.getRoot());
+                tree.postorderPrint(tree.getRoot(), true);
                 break;
 
             default:
@@ -229,7 +202,7 @@ public class inputFromFile {
                     new BufferedReader(fileReader);
 
             while((line = bufferedReader.readLine()) != null) {
-                System.out.println("line: " + line);
+                //System.out.println("line: " + line);
                 addressCommands(line, tree);
             }
 

@@ -55,12 +55,12 @@ public class DoubleThreadedBinaryTree
                 if (numOfNodes%2 == 0) // even
                 {
                     if (node.getId() > median.getId())
-                        median = successor(median);
+                        median = successor(median, false);
                 }
                 else // numOfNodes is odd
                 {
                     if (node.getId() < median.getId())
-                        median = predecessor(median);
+                        median = predecessor(median, false);
                 }
             }
             else // status is DELETE
@@ -69,13 +69,13 @@ public class DoubleThreadedBinaryTree
                 {
                     // == if median itself is deleted
                     if (node.getId() <= median.getId())
-                        median = successor(median);
+                        median = successor(median, false);
                 }
                 else // numOfNodes is odd
                 {
                     // == if median itself is deleted
                     if (node.getId() >= median.getId())
-                        median = predecessor(median);
+                        median = predecessor(median, false);
                 }
             }
         }
@@ -89,6 +89,8 @@ public class DoubleThreadedBinaryTree
      */
     public Node getMedian()
     {
+        if(median != null)System.out.println("Median = " + median.getId() + " : " + median.getName());
+        else System.out.println("Median Error: There are no nodes in the tree.");
         return median;
     }
     public void setMedian(Node tNode){
@@ -101,33 +103,38 @@ public class DoubleThreadedBinaryTree
      *
      * @return min the node with key==min{SubTree keys}
      */
-    public Node minimum(Node rootNode)
+    public Node minimum(Node rootNode, boolean to_print)
     {
         Node min = rootNode;
         if (min != null)
         {
             while (!min.isLeftThreaded())
                 min = min.getLeft();
+        }else{
+            if(to_print)System.out.println("Min Error : There are no nodes in the tree.");
         }
-
+        if(to_print && min != null)System.out.println("Min = " + min.getId() + " : " + min.getName());
         return min;
     }
 
     /**
      * This method returns the node with maximal key in the sub-tree.
      *
-     * @param Node The root of the sub-tree
+     * @param rootNode The root of the sub-tree
      *
      * @return max the node with key==max{SubTree keys}
      */
-    public Node maximum(Node rootNode)
+    public Node maximum(Node rootNode, boolean to_print)
     {
         Node max = rootNode;
         if (max != null)
         {
             while (!max.isRightThreaded())
                 max = max.getRight();
+        }else{
+            if(to_print)System.out.println("Max Error : There are no nodes in the tree.");
         }
+        if(to_print && max != null)System.out.println("Max = " + max.getId() + " : " + max.getName());
         return max;
     }
 
@@ -138,20 +145,31 @@ public class DoubleThreadedBinaryTree
      *
      * @return result the node's successor (null if no succ found or param is null)
      */
-    public Node successor(Node node) {
-        if (node == null)
+    public Node successor(Node node, boolean to_print) {
+        Node successor;
+        if (node == null) {
+            if(to_print) System.out.println("Successor Error : There are no nodes in the tree.");
             return null;
-
+        }
             // if node is right threaded
             // then return its right child (its successor)
-        else if (node.isRightThreaded())
-            return node.getRight();
-
+        else if (node.isRightThreaded()) {
+            successor = node.getRight();
+            if(to_print){
+                if(successor != null){
+                    System.out.println("Successor: " + successor.getId() + " : " + successor.getName());
+                }else{
+                    System.out.println("Successor Error : Node " + node.getId() + " : " + node.getName() +" does not have a successor.");
+                }
+            } return successor;
+        }
             // if node has right sub tree
             //  return the minimum of that sub tree.
-        else if (node.getRight() != null)
-            return minimum(node.getRight());
-
+        else if (node.getRight() != null) {
+            successor = minimum((node.getRight()), false);
+            if(to_print) System.out.println("Successor: " + successor.getId() + " : " + successor.getName());
+            return successor;
+        }
             // node doesn't have a right sub tree
             // therefore its successor is the lowest ancestor of node
             // whose left child is also an ancestor of node (CLRS 12.2-6)
@@ -163,8 +181,13 @@ public class DoubleThreadedBinaryTree
                 previous = ancestor;
                 ancestor = ancestor.getParent();
             }
-
-            return ancestor;
+            successor = ancestor;
+            if(successor == null){
+                if(to_print) System.out.println("Successor Error : Node " + node.getId() + " : " + node.getName() +" does not have a successor");
+            }else{
+                if(to_print) System.out.println("Successor: " + successor.getId() + " : " + successor.getName());
+            }
+            return successor;
         }
     }
     /**
@@ -174,20 +197,36 @@ public class DoubleThreadedBinaryTree
      *
      * @return result the node's predecessor (null if no pred found or param is null)
      */
-    public Node predecessor(Node node)
+    public Node predecessor(Node node, boolean to_print)
     {
-        if (node == null)
+        Node predecessor;
+
+        if (node == null) {
+            if(to_print) System.out.println("Predecessor Error : There are no nodes in the tree.");
             return null;
+        }
 
         // if node is left threaded
         // then return it left child (its predecessor)
-        else if (node.isLeftThreaded())
-            return node.getLeft();
+        else if (node.isLeftThreaded()) {
+            predecessor =  node.getLeft();
+            if(to_print){
+                if(predecessor != null){
+                    System.out.println("Predecessor: " + predecessor.getId() + " : " + predecessor.getName());
+                }else{
+                    System.out.println("Predecessor Error : Node " + node.getId() + " : " + node.getName() +" does not have a predecessor.");
+                }
+            }
+            return predecessor;
+        }
 
         // if node has left sub tree
         // return the maximum of that sub tree
-        else if (node.getLeft() != null)
-            return maximum(node.getLeft());
+        else if (node.getLeft() != null) {
+            predecessor = maximum(node.getLeft(), false);
+            if(to_print) System.out.println("Predecessor: " + predecessor.getId() + " : " + predecessor.getName());
+            return predecessor;
+        }
 
         // node doesn't have a right sub tree
         // therefore its predecessor is the lowest ancestor of node
@@ -202,8 +241,13 @@ public class DoubleThreadedBinaryTree
                 previous = ancestor;
                 ancestor = ancestor.getParent();
             }
-
-            return ancestor;
+            predecessor = ancestor;
+            if(predecessor == null){
+                if(to_print)System.out.println("Predecessor Error : Node " + node.getId() + " : " + node.getName() +" does not have a predecessor.");
+            }else{
+                if(to_print)System.out.println("Predecessor: " + predecessor.getId() + " : " + predecessor.getName());
+            }
+            return predecessor;
         }
     }
 
@@ -257,13 +301,15 @@ public class DoubleThreadedBinaryTree
         }
 
         // thread new core.Node
-        newNode.setLeft(predecessor(newNode));
+        newNode.setLeft(predecessor(newNode, false));
         newNode.setLeftThreaded(true);
-        newNode.setRight(successor(newNode));
+        newNode.setRight(successor(newNode, false));
         newNode.setRightThreaded(true);
 
         numOfNodes++;
         updateMedian(newNode, INSERT);
+        System.out.println("Successfully inserted new node "+ newNode.getId() + " : " + newNode.getName());
+
     }
 
     /**
@@ -274,13 +320,14 @@ public class DoubleThreadedBinaryTree
      * @param id the key of node to be searched
      * @return currentNode if a node is found, null otherwise
      */
-    public Node search(Node rootSubTree, int id, boolean toHighlight)
+    public Node search(Node rootSubTree, int id, boolean toHighlight, boolean to_print)
     {
         Node current = rootSubTree;
         while (current != null)
         {
             if (toHighlight) current.highlightFlag = true;
             if (id == current.getId()) {
+                if(to_print) System.out.println("Successfully found node " + current.getId() + " : " + current.getName());
                 return current;
             }
             if (current.isLeftThreaded() && id < current.getId())
@@ -297,6 +344,7 @@ public class DoubleThreadedBinaryTree
             }
         }
         setResetColor();
+        if (to_print) System.out.println("Could not find node " + id + " because it does not exists.");
         return null;
     }
 
@@ -351,16 +399,17 @@ public class DoubleThreadedBinaryTree
      */
     public Node delete(int id)
     {
-        Node toDelete = search(getRoot(), id, false);
+        Node toDelete = search(getRoot(), id, false, false);
         if (toDelete == null)
         {
-            System.out.println("Error: No node with key=" + id + " in Tree.");
+            System.out.println("Could not delete node " + id + " because it does not exists.");
             return null;
         }
         else {
 
             numOfNodes--;
-
+            String nameToDelete = toDelete.getName();
+            Integer idToDelete = toDelete.getId();
             if (isLeaf(toDelete))
             {
                 toDelete = deleteLeaf(toDelete);
@@ -376,7 +425,7 @@ public class DoubleThreadedBinaryTree
                 toDelete = deleteNodeWithBothChildren(toDelete);
                 // updating median inside deleteNodeWithBothChildren()
             }
-
+            System.out.println("Successfully deleted node " + idToDelete + " : " + nameToDelete);
             return toDelete;
         }
     }
@@ -429,8 +478,8 @@ public class DoubleThreadedBinaryTree
         child.setParent(parent);
 
         // get successor and predecessor of node to delete
-        Node predecessor = predecessor(toDelete);
-        Node successor = successor(toDelete);
+        Node predecessor = predecessor(toDelete, false);
+        Node successor = successor(toDelete, false);
 
         // if node to delete has a left sub-tree
         // then right-thread its predecessor to node to delete's successor.
@@ -455,7 +504,7 @@ public class DoubleThreadedBinaryTree
     {
 
         Node temp = new Node(0, "");
-        Node successor = successor(toDelete);
+        Node successor = successor(toDelete, false);
 
         // save toDelete data temporarily
         temp.copyData(toDelete);
@@ -484,7 +533,7 @@ public class DoubleThreadedBinaryTree
      */
     public String inorderPrint()
     {
-        Node runner = minimum(getRoot());
+        Node runner = minimum(getRoot(), false);
         StringBuilder sb = new StringBuilder();
         while (runner != null)
         {
@@ -496,8 +545,9 @@ public class DoubleThreadedBinaryTree
 
             // Otherwise, go to the leftmost child in right sub-tree
             else
-                runner = minimum(runner.getRight());
+                runner = minimum(runner.getRight(), false);
         }
+        System.out.println("Inorder : " + sb.toString());
         return sb.toString();
     }
 
@@ -506,7 +556,7 @@ public class DoubleThreadedBinaryTree
      *
      * @param currentNode the node to be traversed
      */
-    public String preorderPrint(Node currentNode)
+    public String preorderPrint(Node currentNode, boolean to_print)
     {
         StringBuilder sb = new StringBuilder();
 
@@ -514,11 +564,12 @@ public class DoubleThreadedBinaryTree
         {
             sb.append(currentNode.toString()).append(" ");
             if ( ! currentNode.isLeftThreaded() )
-                sb.append(preorderPrint(currentNode.getLeft()));
+                sb.append(preorderPrint(currentNode.getLeft(), false));
 
             if ( ! currentNode.isRightThreaded() )
-                sb.append(preorderPrint(currentNode.getRight()));
+                sb.append(preorderPrint(currentNode.getRight(), false));
         }
+        if(to_print) System.out.println("Preorder : " + sb.toString());
         return sb.toString();
     }
 
@@ -527,19 +578,20 @@ public class DoubleThreadedBinaryTree
      *
      * @param currentNode the node to be traversed
      */
-    public String postorderPrint(Node currentNode)
+    public String postorderPrint(Node currentNode, boolean to_print)
     {
         StringBuilder sb = new StringBuilder();
         if (currentNode != null)
         {
             if ( ! currentNode.isLeftThreaded() )
-                sb.append(postorderPrint(currentNode.getLeft()));
+                sb.append(postorderPrint(currentNode.getLeft(), false));
 
             if ( ! currentNode.isRightThreaded() )
-                sb.append(postorderPrint(currentNode.getRight()));
+                sb.append(postorderPrint(currentNode.getRight(), false));
 
             sb.append(currentNode.toString()).append(" ");
         }
+        if(to_print)System.out.println("Postorder : " + sb.toString());
         return sb.toString();
     }
 
@@ -581,7 +633,7 @@ public class DoubleThreadedBinaryTree
 
 
     protected void resetColor() {
-        Node runner = minimum(getRoot());
+        Node runner = minimum(getRoot(),false);
         while (runner != null)
         {
 
@@ -591,7 +643,7 @@ public class DoubleThreadedBinaryTree
 
                 // Otherwise, go to the leftmost child in right sub-tree
             else
-                runner = minimum(runner.getRight());
+                runner = minimum(runner.getRight(),false);
         }
     }
 }

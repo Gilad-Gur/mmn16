@@ -39,7 +39,7 @@ public final class GFXController implements Initializable {
         root_container.setCenter(graphicsTree);
 
         // Bind canvas size to stack pane size.
-        graphicsTree.widthProperty().bind(root_container.widthProperty());
+        graphicsTree.widthProperty().bind(root_container.widthProperty().subtract(180));
         graphicsTree.heightProperty().bind(root_container.heightProperty().subtract(50));
     }
 
@@ -49,7 +49,6 @@ public final class GFXController implements Initializable {
     @FXML private void searchOnAction(ActionEvent event) {
         try {
             String x = graphicsTree.search(Integer.parseInt(input_field.getText().trim()));
-
             traversal_textarea.setText(x);
         } catch (NumberFormatException nfe) {
             Alert alert = new Alert(Alert.AlertType.ERROR,
@@ -60,30 +59,22 @@ public final class GFXController implements Initializable {
                     .ifPresent(response -> alert.close());
         }
     }
-
-    /**
-     * Performs the action when the delete button is clicked.
-     */
     @FXML private void deleteOnAction(ActionEvent event) {
         try {
             graphicsTree.delete(Integer.parseInt(input_field.getText().trim()));
             traversal_textarea.setText("");
         } catch (NumberFormatException nfe) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Error deleting value. The input field can only accept numbers.",
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Error deleting value=. The input field can only accept numbers.",
                     ButtonType.OK);
             alert.showAndWait()
                     .filter(response -> response == ButtonType.OK)
                     .ifPresent(response -> alert.close());
         }
     }
-
     private void clearTree() {
         graphicsTree.makeEmpty();
         traversal_textarea.setText("");
     }
-    /**
-     * Performs the action when the clear button is clicked.
-     */
     @FXML private void clearOnAction(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to empty the tree?", ButtonType.OK);
         alert.showAndWait()
@@ -91,12 +82,9 @@ public final class GFXController implements Initializable {
                 .ifPresent(response -> clearTree());
 
     }
-
-    /**
-     *  Performs the action when the insert button is clicked.
-     */
     @FXML private void insertOnAction(ActionEvent event) {
         try {
+            Integer studentId = Integer.parseInt(input_field.getText().trim());
             TextInputDialog dialog = new TextInputDialog("walter");
             dialog.setTitle("Adding new item");
             dialog.setHeaderText("A Student name is needed.");
@@ -104,7 +92,7 @@ public final class GFXController implements Initializable {
             Optional<String> result = dialog.showAndWait();
             String studentName = "";
             if (result.isPresent()){ studentName = result.get();}
-            graphicsTree.insert(Integer.parseInt(input_field.getText().trim()), studentName);
+            graphicsTree.insert(studentId, studentName);
         } catch (NumberFormatException nfe) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Error inserting value. The input field can only accept numbers.",
                     ButtonType.OK);
@@ -117,9 +105,6 @@ public final class GFXController implements Initializable {
         String median = graphicsTree.showMedian();
         traversal_textarea.setText(median);
     }
-    /**
-     * Performs the action when the first traversal button is clicked.
-     */
     @FXML private void showMinAction(ActionEvent event) {
         String min = graphicsTree.showMin();
         traversal_textarea.setText(min);
@@ -129,23 +114,23 @@ public final class GFXController implements Initializable {
         String max = graphicsTree.showMax();
         traversal_textarea.setText(max);
     }
+    @FXML private void showSuccessor(ActionEvent event){
+        String suc = graphicsTree.showSuccessor();
+        traversal_textarea.setText(suc);
+    }
+    @FXML private void showPredecessor(ActionEvent event){
+        String pred = graphicsTree.showPredecessor();
+        traversal_textarea.setText(pred);
+    }
     @FXML private void inorderOnAction(ActionEvent event) {
         traversal_textarea.setText(graphicsTree.inorder());
     }
-    /**
-     *  Performs the action when the second traversal button is clicked.
-     */
     @FXML private void preorderOnAction(ActionEvent event) {
         traversal_textarea.setText(graphicsTree.preorder());
     }
-
-    /**
-     *  Performs the action when the third traversal button is clicked.
-     */
     @FXML private void postorderOnAction(ActionEvent event) {
         traversal_textarea.setText(graphicsTree.postorder());
     }
-
     @FXML private void openFileOnAction(ActionEvent event){
         final FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(root_container.getScene().getWindow());
@@ -153,4 +138,5 @@ public final class GFXController implements Initializable {
             graphicsTree.createTreeFromFile(file);
         }
     }
+
 }
